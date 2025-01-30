@@ -1,0 +1,23 @@
+name: MongoDB Backup
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # รันทุกวันเที่ยงคืน
+  workflow_dispatch:     # รันด้วยตัวเอง
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install MongoDB Tools
+        run: |
+          wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
+          sudo apt install ./mongodb-database-tools-ubuntu2004-x86_64-100.6.1.deb
+
+      - name: Export MongoDB Data
+        run: |
+          mongoexport --uri="${{ secrets.MONGODB_URI }}" \
+            --collection=your_collection \
+            --out=./data/backup.json
