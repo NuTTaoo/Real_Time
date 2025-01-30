@@ -19,5 +19,5 @@ jobs:
       - name: Export MongoDB Data
         run: |
           mongoexport --uri="${{ secrets.MONGODB_URI }}" \
-            --collection=your_collection \
+            --collection=Assignment1 \
             --out=./data/backup.json
